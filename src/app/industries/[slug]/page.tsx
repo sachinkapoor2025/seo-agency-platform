@@ -12,6 +12,8 @@ type IndustryPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return industries.map((industry) => ({ slug: industry.slug }));
 }

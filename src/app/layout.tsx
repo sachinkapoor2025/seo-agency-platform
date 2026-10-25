@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { SiteFrame } from "@/components/site-frame";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -29,15 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sourceSans.variable} ${sourceSerif.variable}`}>
       <body className="bg-white font-sans text-ink antialiased">
-        <a
-          href="#main"
-          className="skip-link"
-        >
-          Skip to content
-        </a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { PageTransition } from "@/components/page-transition";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -17,7 +18,9 @@ export function SiteFrame({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main">{children}</main>
+      <main id="main">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <SiteFooter />
     </>
   );

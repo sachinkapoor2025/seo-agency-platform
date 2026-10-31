@@ -23,8 +23,10 @@ export const industries: Industry[] = [
       "This page describes typical search needs. It is not a claim of client work in retail.",
     ],
     relevantServices: [
-      "ecommerce-seo",
       "technical-seo",
+      "on-page-seo",
+      "content-strategy",
+      "ecommerce-seo",
       "ai-search-visibility",
     ],
   },
@@ -50,9 +52,11 @@ export const industries: Industry[] = [
       "Nothing here implies a particular software client or outcome.",
     ],
     relevantServices: [
+      "technical-seo",
+      "on-page-seo",
       "content-strategy",
       "answer-engine-optimization",
-      "technical-seo",
+      "generative-engine-optimization",
     ],
   },
   {
@@ -79,6 +83,8 @@ export const industries: Industry[] = [
     relevantServices: [
       "content-strategy",
       "on-page-seo",
+      "technical-seo",
+      "answer-engine-optimization",
       "generative-engine-optimization",
     ],
   },
@@ -103,7 +109,12 @@ export const industries: Industry[] = [
       "Location pages are useful only when the location actually changes the offer.",
       "Growth Agency does not provide medical advice, and this page does not claim healthcare clients.",
     ],
-    relevantServices: ["on-page-seo", "technical-seo", "content-strategy"],
+    relevantServices: [
+      "technical-seo",
+      "on-page-seo",
+      "content-strategy",
+      "answer-engine-optimization",
+    ],
   },
   {
     slug: "education",
@@ -128,8 +139,9 @@ export const industries: Industry[] = [
     ],
     relevantServices: [
       "content-strategy",
-      "answer-engine-optimization",
       "on-page-seo",
+      "technical-seo",
+      "answer-engine-optimization",
     ],
   },
   {
@@ -153,6 +165,11 @@ export const industries: Industry[] = [
       "Review content and local proof should be used only when they are real and permitted.",
       "No specific locations or performance figures are claimed here.",
     ],
-    relevantServices: ["on-page-seo", "technical-seo", "ai-search-visibility"],
+    relevantServices: [
+      "technical-seo",
+      "on-page-seo",
+      "content-strategy",
+      "ai-search-visibility",
+    ],
   },
 ];

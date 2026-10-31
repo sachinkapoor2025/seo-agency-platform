@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sourceSans.variable} ${sourceSerif.variable}`}>
-      <body className="bg-white font-sans text-ink antialiased">
+      <body className="bg-background font-sans text-ink antialiased">
         <SiteFrame>{children}</SiteFrame>
       </body>
     </html>

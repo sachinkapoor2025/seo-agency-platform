@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ui } from "@/lib/ui";
 
 export type Crumb = {
   label: string;
@@ -19,7 +20,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
                 </span>
               ) : null}
               {item.href && !isLast ? (
-                <Link href={item.href} className="hover:text-navy">
+                <Link href={item.href} className={ui.quietLink}>
                   {item.label}
                 </Link>
               ) : (

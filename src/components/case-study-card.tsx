@@ -1,22 +1,20 @@
 import Link from "next/link";
 import type { CaseStudy } from "@/content/types";
+import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
     <article className="h-full">
       <Link
         href={`/case-studies/${study.slug}`}
-        className="flex h-full flex-col border border-line bg-paper p-6 transition-shadow hover:shadow-md"
+        className={cx(ui.cardInteractive, "flex h-full flex-col")}
       >
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-navy">
-          Illustrative example
-        </p>
-        <h3 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-navy">
-          {study.title}
-        </h3>
-        <p className="mt-2 text-sm font-medium text-ink">{study.industry}</p>
-        <p className="mt-3 flex-1 text-sm leading-6 text-muted">{study.summary}</p>
-        <p className="mt-6 text-sm font-semibold text-navy">Read the example</p>
+        <p className={ui.eyebrow}>Illustrative example</p>
+        <h3 className={cx(ui.h3, "mt-3")}>{study.title}</h3>
+        <p className={cx(ui.small, "mt-2 font-medium")}>{study.industry}</p>
+        <p className={cx(ui.small, "mt-3 flex-1 text-muted")}>{study.summary}</p>
+        <p className={cx(ui.textLink, "mt-6")}>Read the example</p>
       </Link>
     </article>
   );

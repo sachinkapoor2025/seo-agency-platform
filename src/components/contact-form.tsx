@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { Button } from "@/components/button";
+import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type Option = {
   value: string;
@@ -93,21 +96,15 @@ export function ContactForm({ services, countries }: ContactFormProps) {
 
   if (status === "success") {
     return (
-      <div role="status" className="border border-line bg-paper p-6 sm:p-8">
-        <h2 className="font-serif text-2xl font-semibold text-navy">
-          This demonstration did not send your enquiry
-        </h2>
-        <p className="mt-4 max-w-2xl text-base leading-7 text-ink">
+      <div role="status" className={cx(ui.card, "sm:p-8")}>
+        <h2 className={ui.h3}>This demonstration did not send your enquiry</h2>
+        <p className={cx(ui.body, ui.measure, "mt-4")}>
           The form accepted the fields as a frontend demo only. Nothing was sent,
           stored, or emailed. There is no backend connected to this page.
         </p>
-        <button
-          type="button"
-          className="mt-6 inline-flex min-h-11 items-center border border-navy px-5 text-sm font-semibold text-navy hover:bg-white"
-          onClick={() => setStatus("idle")}
-        >
+        <Button variant="secondary" className="mt-6" onClick={() => setStatus("idle")}>
           Return to the form
-        </button>
+        </Button>
       </div>
     );
   }
@@ -118,7 +115,7 @@ export function ContactForm({ services, countries }: ContactFormProps) {
 
   return (
     <form onSubmit={onSubmit} noValidate aria-busy={status === "submitting"} className="space-y-6">
-      <p className="border-l-2 border-navy bg-paper px-4 py-3 text-sm leading-6 text-ink">
+      <p className={ui.callout}>
         This form is a frontend demonstration. Submitting it does not send, store, or
         email your details.
       </p>
@@ -183,8 +180,8 @@ export function ContactForm({ services, countries }: ContactFormProps) {
         onChange={(value) => update("service", value)}
       />
       <div>
-        <label htmlFor={`${formId}-message`} className="text-sm font-semibold text-ink">
-          Message <span className="font-normal text-muted">(required)</span>
+        <label htmlFor={`${formId}-message`} className={ui.fieldLabel}>
+          Message <span className="field-hint">(required)</span>
         </label>
         <textarea
           id={`${formId}-message`}
@@ -194,21 +191,17 @@ export function ContactForm({ services, countries }: ContactFormProps) {
           aria-invalid={errors.message ? true : undefined}
           aria-describedby={errors.message ? `${formId}-message-error` : undefined}
           onChange={(event) => update("message", event.target.value)}
-          className="mt-2 w-full border border-line bg-white px-3 py-2 text-base text-ink"
+          className={ui.fieldControl}
         />
         {errors.message ? (
-          <p id={`${formId}-message-error`} className="mt-2 text-sm text-danger">
+          <p id={`${formId}-message-error`} className={ui.fieldError}>
             {errors.message}
           </p>
         ) : null}
       </div>
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="inline-flex min-h-11 items-center justify-center bg-navy px-5 text-sm font-semibold text-white hover:bg-navy-dark disabled:cursor-wait disabled:opacity-70"
-      >
+      <Button type="submit" disabled={status === "submitting"}>
         {status === "submitting" ? "Submitting…" : "Submit demonstration"}
-      </button>
+      </Button>
     </form>
   );
 }
@@ -234,11 +227,9 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="text-sm font-semibold text-ink">
+      <label htmlFor={id} className={ui.fieldLabel}>
         {label}{" "}
-        <span className="font-normal text-muted">
-          {required ? "(required)" : "(optional)"}
-        </span>
+        <span className="field-hint">{required ? "(required)" : "(optional)"}</span>
       </label>
       <input
         id={id}
@@ -249,10 +240,10 @@ function Field({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full border border-line bg-white px-3 py-2 text-base text-ink"
+        className={ui.fieldControl}
       />
       {error ? (
-        <p id={`${id}-error`} className="mt-2 text-sm text-danger">
+        <p id={`${id}-error`} className={ui.fieldError}>
           {error}
         </p>
       ) : null}
@@ -281,11 +272,8 @@ function SelectField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="text-sm font-semibold text-ink">
-        {label}{" "}
-        {required ? (
-          <span className="font-normal text-muted">(required)</span>
-        ) : null}
+      <label htmlFor={id} className={ui.fieldLabel}>
+        {label} {required ? <span className="field-hint">(required)</span> : null}
       </label>
       <select
         id={id}
@@ -294,7 +282,7 @@ function SelectField({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full border border-line bg-white px-3 py-2 text-base text-ink"
+        className={ui.fieldControl}
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
@@ -304,7 +292,7 @@ function SelectField({
         ))}
       </select>
       {error ? (
-        <p id={`${id}-error`} className="mt-2 text-sm text-danger">
+        <p id={`${id}-error`} className={ui.fieldError}>
           {error}
         </p>
       ) : null}

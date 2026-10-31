@@ -1,69 +1,71 @@
 import type { Metadata } from "next";
+import type { JSX } from "react";
 import { notFound } from "next/navigation";
-import { ConsultationCta } from "@/components/consultation-cta";
-import { Container } from "@/components/container";
-import { PageIntro } from "@/components/page-intro";
-import { RelatedLinks } from "@/components/related-links";
-import { TextSection } from "@/components/text-section";
+import { EducationIndustryPage } from "@/components/industry-education";
+import { EcommerceIndustryPage } from "@/components/industry-ecommerce";
+import { HealthcareIndustryPage } from "@/components/industry-healthcare";
+import { LocalIndustryPage } from "@/components/industry-local";
+import { ProfessionalIndustryPage } from "@/components/industry-professional";
+import { SaasIndustryPage } from "@/components/industry-saas";
 import { industries } from "@/content/industries";
-import { getIndustry, getServicesBySlug } from "@/lib/content";
+import { getIndustry } from "@/lib/content";
 
 type IndustryPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
+const descriptions: Record<string, string> = {
+  ecommerce:
+    "How e-commerce search planning covers category architecture, product pages, filters, indexation, and product information.",
+  "saas-technology":
+    "How SaaS and technology search planning covers product pages, features, integrations, documentation, and evaluation content.",
+  "professional-services":
+    "How professional-services search planning covers service pages, expertise, evidence, and the questions clients ask.",
+  healthcare:
+    "How healthcare search planning organizes provider, service, and location information without medical advice or clinical claims.",
+  education:
+    "How education search planning covers programs, courses, admissions, campuses, and large course catalogs.",
+  "local-multi-location":
+    "How local and multi-location search planning covers location pages, service areas, and consistent business information.",
+};
+
+const pages: Record<string, () => JSX.Element> = {
+  ecommerce: EcommerceIndustryPage,
+  "saas-technology": SaasIndustryPage,
+  "professional-services": ProfessionalIndustryPage,
+  healthcare: HealthcareIndustryPage,
+  education: EducationIndustryPage,
+  "local-multi-location": LocalIndustryPage,
+};
 
 export function generateStaticParams() {
   return industries.map((industry) => ({ slug: industry.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: IndustryPageProps): Promise<Metadata> {
+export const dynamicParams = false;
+
+export async function generateMetadata({ params }: IndustryPageProps): Promise<Metadata> {
   const { slug } = await params;
   const industry = getIndustry(slug);
-  if (!industry) return { title: "Industry not found" };
+
+  if (!industry) {
+    return { title: "Industry" };
+  }
+
   return {
     title: industry.name,
-    description: industry.summary,
+    description: descriptions[industry.slug] ?? industry.summary,
   };
 }
 
-export default async function IndustryDetailPage({ params }: IndustryPageProps) {
+export default async function IndustryPage({ params }: IndustryPageProps) {
   const { slug } = await params;
   const industry = getIndustry(slug);
-  if (!industry) notFound();
+  const Page = industry ? pages[industry.slug] : undefined;
 
-  const services = getServicesBySlug(industry.relevantServices);
+  if (!industry || !Page) {
+    notFound();
+  }
 
-  return (
-    <>
-      <PageIntro
-        eyebrow="Industry"
-        title={industry.name}
-        lede={industry.summary}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Industries", href: "/industries" },
-          { label: industry.name },
-        ]}
-        notice="This is a general planning overview. It does not describe a client engagement or claim results in this industry."
-      />
-      <Container className="py-4">
-        <TextSection title="Overview" paragraphs={industry.overview} />
-        <TextSection title="How search needs differ" items={industry.searchNeeds} />
-        <TextSection title="Strategic considerations" items={industry.considerations} />
-        <RelatedLinks
-          title="Relevant services"
-          links={services.map((service) => ({
-            href: `/services/${service.slug}`,
-            label: service.name,
-            description: service.summary,
-          }))}
-        />
-      </Container>
-      <ConsultationCta />
-    </>
-  );
+  return <Page />;
 }

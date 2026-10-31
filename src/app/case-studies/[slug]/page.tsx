@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
+import type { JSX } from "react";
 import { notFound } from "next/navigation";
-import { ConsultationCta } from "@/components/consultation-cta";
-import { Container } from "@/components/container";
-import { PageIntro } from "@/components/page-intro";
-import { RelatedLinks } from "@/components/related-links";
-import { TextSection } from "@/components/text-section";
+import { AdvisoryCaseStudy } from "@/components/case-advisory";
+import { CatalogueCaseStudy } from "@/components/case-catalogue";
+import { DocumentationCaseStudy } from "@/components/case-documentation";
+import { LocationsCaseStudy } from "@/components/case-locations";
 import { caseStudies } from "@/content/case-studies";
-import { getCaseStudy, servicesForCaseStudy } from "@/lib/content";
+import type { CaseStudy } from "@/content/types";
+import { getCaseStudy } from "@/lib/content";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
+};
+
+const pages: Record<string, (props: { study: CaseStudy }) => JSX.Element> = {
+  "international-product-catalogue": CatalogueCaseStudy,
+  "b2b-software-documentation": DocumentationCaseStudy,
+  "multi-location-service-business": LocationsCaseStudy,
+  "advisory-explanatory-content": AdvisoryCaseStudy,
 };
 
 export const dynamicParams = false;
@@ -18,9 +26,7 @@ export function generateStaticParams() {
   return caseStudies.map((study) => ({ slug: study.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: CaseStudyPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
   if (!study) return { title: "Example not found" };
@@ -33,39 +39,9 @@ export async function generateMetadata({
 export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) notFound();
+  const Page = study ? pages[study.slug] : undefined;
 
-  const services = servicesForCaseStudy(study);
+  if (!study || !Page) notFound();
 
-  return (
-    <>
-      <PageIntro
-        eyebrow="Illustrative example"
-        title={study.title}
-        lede={study.summary}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Case Studies", href: "/case-studies" },
-          { label: study.title },
-        ]}
-        notice="This scenario is hypothetical. It is not a client story, and it includes no performance results."
-      />
-      <Container className="py-4">
-        <TextSection title="Hypothetical business context" paragraphs={study.context} />
-        <TextSection title="Challenge" items={study.challenge} />
-        <TextSection title="Strategy" items={study.strategy} />
-        <TextSection title="Implementation" items={study.implementation} />
-        <TextSection title="Measurement plan" paragraphs={study.measurement} />
-        <RelatedLinks
-          title="Services used in this example"
-          links={services.map((service) => ({
-            href: `/services/${service.slug}`,
-            label: service.name,
-            description: service.summary,
-          }))}
-        />
-      </Container>
-      <ConsultationCta />
-    </>
-  );
+  return <Page study={study} />;
 }

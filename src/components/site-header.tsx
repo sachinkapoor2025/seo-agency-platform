@@ -8,6 +8,7 @@ import { mainNavigation } from "@/content/navigation";
 import { site } from "@/content/site";
 import type { NavItem } from "@/content/types";
 import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type MenuKey = "services" | "industries";
 
@@ -131,11 +132,11 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface">
+      <div className={cx(ui.container, "flex h-16 items-center justify-between gap-4")}>
         <Link href="/" className="flex min-w-0 items-center gap-3">
-          <span aria-hidden="true" className="h-2.5 w-2.5 shrink-0 bg-navy" />
-          <span className="truncate font-serif text-lg font-semibold tracking-tight text-navy">
+          <span aria-hidden="true" className="h-2.5 w-2.5 shrink-0 bg-accent" />
+          <span className="truncate font-serif text-lg font-semibold tracking-tight">
             {site.name}
           </span>
         </Link>
@@ -161,8 +162,9 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive(pathname, item.href) ? "page" : undefined}
                 className={cx(
-                  "px-3 py-2 text-sm font-semibold text-ink hover:text-navy",
-                  isActive(pathname, item.href) && "text-navy",
+                  ui.quietLink,
+                  "px-3 py-2 text-sm font-semibold",
+                  isActive(pathname, item.href) && "text-accent",
                 )}
               >
                 {item.label}
@@ -171,21 +173,15 @@ export function SiteHeader() {
           )}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <ButtonLink
-            href="/contact"
-            ariaLabel="Book a consultation"
-            className="px-3 sm:px-5"
-          >
-            <span className="sm:hidden" aria-hidden="true">
-              Consult
-            </span>
+        <div className="flex shrink-0 items-center gap-2">
+          <ButtonLink href="/contact" className="px-3 sm:px-5">
+            <span className="sm:hidden">Contact</span>
             <span className="hidden sm:inline">Book a Consultation</span>
           </ButtonLink>
           <button
             ref={menuButtonRef}
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center border border-line text-navy lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-control border border-line lg:hidden"
             aria-expanded={mobileOpen}
             aria-controls={mobileMenuId}
             onClick={() => setMobileOpen((open) => !open)}
@@ -200,27 +196,24 @@ export function SiteHeader() {
         <div
           id={mobileMenuId}
           ref={mobilePanelRef}
-          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto border-t border-line bg-white lg:hidden"
+          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto border-t border-line bg-surface lg:hidden"
           onClick={(event) => {
             if (event.target instanceof Element && event.target.closest("a")) {
               restoreFocusRef.current = false;
             }
           }}
         >
-          <nav aria-label="Mobile" className="mx-auto flex w-full max-w-6xl flex-col px-5 py-4 sm:px-8">
+          <nav aria-label="Mobile" className={cx(ui.container, "flex flex-col py-4")}>
             <button
               type="button"
-              className="mb-3 inline-flex min-h-11 items-center justify-center border border-line px-4 text-sm font-semibold text-navy"
+              className={cx(ui.buttonSecondary, "mb-3 w-full")}
               onClick={() => setMobileOpen(false)}
             >
               Close menu
             </button>
-            <Link
-              href="/contact"
-              className="mb-3 inline-flex min-h-11 items-center justify-center bg-navy px-4 text-sm font-semibold text-white"
-            >
+            <ButtonLink href="/contact" className="mb-3 w-full">
               Book a Consultation
-            </Link>
+            </ButtonLink>
             {mainNavigation.map((item) =>
               item.children ? (
                 <MobileSection
@@ -236,7 +229,7 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive(pathname, item.href) ? "page" : undefined}
-                  className="border-b border-line py-3 text-base font-semibold text-ink"
+                  className={cx(ui.quietLink, "border-b border-line py-3 text-base font-semibold")}
                 >
                   {item.label}
                 </Link>
@@ -301,15 +294,16 @@ function DesktopMenu({
           href={item.href}
           aria-current={sectionActive ? "page" : undefined}
           className={cx(
-            "px-2 py-2 text-sm font-semibold text-ink hover:text-navy",
-            sectionActive && "text-navy",
+            ui.quietLink,
+            "px-2 py-2 text-sm font-semibold",
+            sectionActive && "text-accent",
           )}
         >
           {item.label}
         </Link>
         <button
           type="button"
-          className="inline-flex h-9 w-8 items-center justify-center text-navy"
+          className="inline-flex h-9 w-8 items-center justify-center rounded-control text-ink transition-colors duration-150 hover:bg-background"
           aria-expanded={expanded}
           aria-controls={menuId}
           aria-label={expanded ? `Hide ${item.label.toLowerCase()}` : item.menuLabel}
@@ -322,7 +316,7 @@ function DesktopMenu({
       {expanded && item.children ? (
         <div
           id={menuId}
-          className="absolute left-0 top-full z-30 mt-2 w-80 border border-line bg-white p-2 shadow-md"
+          className="absolute left-0 top-full z-30 mt-2 w-80 rounded-card border border-line bg-surface p-2 shadow-card"
         >
           <ul>
             {item.children.map((child) => (
@@ -330,7 +324,9 @@ function DesktopMenu({
                 <Link
                   href={child.href}
                   aria-current={pathname === child.href ? "page" : undefined}
-                  className="block px-3 py-2 text-sm font-medium text-ink hover:bg-paper hover:text-navy"
+                  className={cx(
+                    "block rounded-control px-3 py-2 text-sm font-medium text-ink transition-colors duration-150 hover:bg-background hover:text-accent",
+                  )}
                 >
                   {child.label}
                 </Link>
@@ -339,7 +335,9 @@ function DesktopMenu({
           </ul>
           <Link
             href={item.href}
-            className="mt-1 block border-t border-line px-3 py-2 text-sm font-semibold text-navy hover:bg-paper"
+            className={cx(
+              "mt-1 block border-t border-line px-3 py-2 text-sm font-semibold text-accent transition-colors duration-150 hover:bg-background hover:text-accent-hover hover:underline hover:underline-offset-[0.18em]",
+            )}
           >
             View all {item.label.toLowerCase()}
           </Link>
@@ -371,13 +369,13 @@ function MobileSection({
         <Link
           href={item.href}
           aria-current={isActive(pathname, item.href) ? "page" : undefined}
-          className="py-3 text-base font-semibold text-ink"
+          className={cx(ui.quietLink, "py-3 text-base font-semibold")}
         >
           {item.label}
         </Link>
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center text-navy"
+          className="inline-flex h-11 w-11 items-center justify-center text-ink"
           aria-expanded={expanded}
           aria-controls={panelId}
           aria-label={expanded ? `Hide ${item.label.toLowerCase()}` : item.menuLabel}
@@ -393,7 +391,7 @@ function MobileSection({
               <Link
                 href={child.href}
                 aria-current={pathname === child.href ? "page" : undefined}
-                className="block py-2 text-sm text-ink hover:text-navy"
+                className={cx(ui.quietLink, "block py-2 text-sm")}
               >
                 {child.label}
               </Link>
@@ -428,7 +426,7 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
       height="14"
       viewBox="0 0 14 14"
       aria-hidden="true"
-      className={cx("transition-transform", expanded && "rotate-180")}
+      className={cx("transition-transform duration-150", expanded && "rotate-180")}
     >
       <path d="M3 5.5 7 9l4-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
     </svg>

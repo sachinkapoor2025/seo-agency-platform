@@ -1,4 +1,5 @@
 import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type SectionHeadingProps = {
   eyebrow?: string;
@@ -16,20 +17,13 @@ export function SectionHeading({
   align = "left",
 }: SectionHeadingProps) {
   return (
-    <div className={cx("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      {eyebrow ? (
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-navy">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2
-        id={id}
-        className="mt-3 font-serif text-3xl font-semibold tracking-tight text-navy sm:text-4xl"
-      >
+    <div className={cx(ui.measure, align === "center" && "mx-auto text-center")}>
+      {eyebrow ? <p className={ui.eyebrow}>{eyebrow}</p> : null}
+      <h2 id={id} className={cx(ui.h2, eyebrow && "mt-3")}>
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-base leading-7 text-muted sm:text-lg">{description}</p>
+        <p className={cx(ui.bodyLg, "mt-4 text-muted")}>{description}</p>
       ) : null}
     </div>
   );

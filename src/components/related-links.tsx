@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type RelatedLink = {
   href: string;
@@ -17,23 +19,16 @@ export function RelatedLinks({
 
   return (
     <section className="py-10" aria-labelledby="related-heading">
-      <h2
-        id="related-heading"
-        className="font-serif text-2xl font-semibold tracking-tight text-navy sm:text-3xl"
-      >
+      <h2 id="related-heading" className={ui.h2}>
         {title}
       </h2>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2">
         {links.map((link) => (
-          <li key={link.href} className="border border-line bg-paper">
-            <Link href={link.href} className="block p-5 hover:bg-white">
-              <span className="font-serif text-xl font-semibold text-navy">
-                {link.label}
-              </span>
+          <li key={link.href}>
+            <Link href={link.href} className={cx(ui.cardInteractive, "block h-full")}>
+              <span className={ui.h3}>{link.label}</span>
               {link.description ? (
-                <span className="mt-2 block text-sm leading-6 text-muted">
-                  {link.description}
-                </span>
+                <span className={cx(ui.small, "mt-2 block text-muted")}>{link.description}</span>
               ) : null}
             </Link>
           </li>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type ButtonLinkProps = {
   href: string;
@@ -10,8 +11,8 @@ type ButtonLinkProps = {
 };
 
 const variants = {
-  primary: "border border-navy bg-navy text-white hover:border-navy-dark hover:bg-navy-dark",
-  secondary: "border border-navy bg-white text-navy hover:bg-paper",
+  primary: ui.buttonPrimary,
+  secondary: ui.buttonSecondary,
 };
 
 export function ButtonLink({
@@ -26,7 +27,6 @@ export function ButtonLink({
       href={href}
       aria-label={ariaLabel}
       className={cx(
-        "inline-flex min-h-11 items-center justify-center px-5 py-2.5 text-sm font-semibold tracking-wide transition-colors",
         variants[variant],
         className,
       )}

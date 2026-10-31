@@ -1,4 +1,5 @@
 import { cx } from "@/lib/cx";
+import { ui } from "@/lib/ui";
 
 type ContainerProps = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export function Container({
   as: Tag = "div",
 }: ContainerProps) {
   return (
-    <Tag className={cx("mx-auto w-full max-w-6xl px-5 sm:px-8", className)}>
+    <Tag className={cx(ui.container, className)}>
       {children}
     </Tag>
   );

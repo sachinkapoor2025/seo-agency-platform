@@ -90,19 +90,19 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }, [open]);
 
   return (
-    <div className="min-h-screen bg-paper lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
-      <aside className="hidden bg-navy text-white lg:flex lg:min-h-screen lg:flex-col">
+    <div className="min-h-screen bg-background lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+      <aside className="hidden bg-inverse text-on-inverse lg:flex lg:min-h-screen lg:flex-col">
         <AdminBrand />
         <AdminNav pathname={pathname} />
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        <header className="sticky top-0 z-30 border-b border-line bg-white">
+        <header className="sticky top-0 z-30 border-b border-line bg-surface">
           <div className="flex items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
             <button
               ref={menuButtonRef}
               type="button"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-line text-navy lg:hidden"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-control border border-line text-ink lg:hidden"
               aria-expanded={open}
               aria-controls={menuId}
               onClick={() => setOpen((current) => !current)}
@@ -139,7 +139,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             type="button"
-            className="absolute inset-0 bg-navy/40"
+            className="absolute inset-0 bg-inverse/40"
             aria-label="Close navigation"
             onClick={() => setOpen(false)}
           />
@@ -149,7 +149,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             role="dialog"
             aria-modal="true"
             aria-label="Admin navigation"
-            className="relative flex h-full w-[min(100%,18rem)] flex-col bg-navy text-white"
+            className="relative flex h-full w-[min(100%,18rem)] flex-col bg-inverse text-on-inverse"
             onClick={(event) => {
               if (event.target instanceof Element && event.target.closest("a")) {
                 restoreFocusRef.current = false;
@@ -160,7 +160,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <AdminBrand />
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center border border-white/30"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-control border border-on-inverse/30"
                 onClick={() => setOpen(false)}
               >
                 <span className="sr-only">Close navigation</span>
@@ -179,7 +179,7 @@ function AdminBrand() {
   return (
     <div className="px-4 py-5">
       <p className="font-serif text-lg font-semibold">Growth Agency</p>
-      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
+      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] text-on-inverse/80">
         Prototype
       </p>
     </div>
@@ -200,8 +200,8 @@ function AdminNav({ pathname }: { pathname: string }) {
                 className={cx(
                   "block px-3 py-2 text-sm font-semibold",
                   active
-                    ? "bg-white text-navy focus-visible:outline-navy"
-                    : "text-white hover:bg-white/10 focus-visible:outline-white",
+                    ? "bg-surface text-ink focus-visible:outline-ink"
+                    : "text-on-inverse hover:bg-surface/10 focus-visible:outline-on-inverse",
                 )}
               >
                 {item.label}
@@ -210,9 +210,9 @@ function AdminNav({ pathname }: { pathname: string }) {
           );
         })}
       </ul>
-      <div className="mt-auto space-y-3 px-3 pt-8 text-sm leading-6 text-white/80">
+      <div className="mt-auto space-y-3 px-3 pt-8 text-sm leading-6 text-on-inverse/80">
         <p>This prototype is not access-controlled and is not a production admin system.</p>
-        <Link href="/" className="inline-flex font-semibold text-white underline focus-visible:outline-white">
+        <Link href="/" className="inline-flex font-semibold text-on-inverse underline focus-visible:outline-on-inverse">
           View public website
         </Link>
       </div>

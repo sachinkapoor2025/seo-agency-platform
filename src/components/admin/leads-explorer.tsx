@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { EnquiryTable } from "@/components/admin/enquiry-table";
+import { ui } from "@/lib/ui";
+import { cx } from "@/lib/cx";
 import {
   enquiryStatuses,
   type DemoEnquiry,
@@ -36,13 +38,13 @@ export function LeadsExplorer({ enquiries }: { enquiries: DemoEnquiry[] }) {
           Showing {filtered.length} of {enquiries.length} demo records
         </p>
       </div>
-      <form
-        className="grid gap-4 border border-line bg-white p-4 sm:grid-cols-2"
+        <form
+        className={cx(ui.card, "grid gap-4 p-4 sm:grid-cols-2")}
         role="search"
         onSubmit={(event) => event.preventDefault()}
       >
         <div>
-          <label htmlFor="enquiry-search" className="text-sm font-semibold text-ink">
+          <label htmlFor="enquiry-search" className={ui.fieldLabel}>
             Search by name or email
           </label>
           <input
@@ -50,18 +52,18 @@ export function LeadsExplorer({ enquiries }: { enquiries: DemoEnquiry[] }) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            className="mt-2 min-h-11 w-full border border-line bg-white px-3 text-base text-ink"
+            className={ui.fieldControl}
           />
         </div>
         <div>
-          <label htmlFor="enquiry-status" className="text-sm font-semibold text-ink">
+          <label htmlFor="enquiry-status" className={ui.fieldLabel}>
             Status
           </label>
           <select
             id="enquiry-status"
             value={status}
             onChange={(event) => setStatus(event.target.value as StatusFilter)}
-            className="mt-2 min-h-11 w-full border border-line bg-white px-3 text-base text-ink"
+            className={ui.fieldControl}
           >
             <option value="All">All statuses</option>
             {enquiryStatuses.map((item) => (
@@ -81,7 +83,7 @@ export function LeadsExplorer({ enquiries }: { enquiries: DemoEnquiry[] }) {
           </p>
           <button
             type="button"
-            className="mt-5 inline-flex min-h-11 items-center border border-navy px-4 text-sm font-semibold text-navy hover:bg-paper"
+            className={cx(ui.buttonSecondary, "mt-5")}
             onClick={() => {
               setQuery("");
               setStatus("All");

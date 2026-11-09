@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const covers = [
-  "The markets you care about, including India, the United States, and the United Kingdom.",
+  "The market you select for the conversation.",
   "Whether the immediate need is technical, editorial, or both.",
   "What a first phase of work would look like, without a promise of rankings.",
 ] as const;
@@ -23,7 +23,7 @@ const covers = [
 export default function ContactPage() {
   return (
     <section className="border-b border-line bg-background">
-      <Container className="grid items-start gap-12 py-14 sm:py-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16 lg:py-20">
+      <Container className="grid items-start gap-12 py-14 sm:py-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16 lg:py-20">
         <div className="min-w-0">
           <HeroEntrance {...heroStep("eyebrow")}>
             <p className={ui.eyebrow}>Contact</p>

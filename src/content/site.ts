@@ -8,10 +8,12 @@ export const site = {
 } as const;
 
 export const consultationCountries = [
-  { value: "india", label: "India" },
-  { value: "united-states", label: "United States" },
-  { value: "united-kingdom", label: "United Kingdom" },
-  { value: "other", label: "Another country" },
+  { value: "usa", label: "USA" },
+  { value: "uk", label: "UK" },
+  { value: "australia", label: "Australia" },
+  { value: "canada", label: "Canada" },
+  { value: "europe", label: "Europe" },
+  { value: "other", label: "Other" },
 ] as const;
 
 export const principles = [

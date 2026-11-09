@@ -1,41 +1,13 @@
 import type { Metadata } from "next";
-import type { JSX } from "react";
 import { notFound } from "next/navigation";
-import { EducationIndustryPage } from "@/components/industry-education";
-import { EcommerceIndustryPage } from "@/components/industry-ecommerce";
-import { HealthcareIndustryPage } from "@/components/industry-healthcare";
-import { LocalIndustryPage } from "@/components/industry-local";
-import { ProfessionalIndustryPage } from "@/components/industry-professional";
-import { SaasIndustryPage } from "@/components/industry-saas";
+import { ServiceDocumentPage } from "@/components/service-document-page";
 import { industries } from "@/content/industries";
+import { getIndustryDocument, industryArtwork } from "@/content/industry-pages";
 import { getIndustry } from "@/lib/content";
+import { serviceMetadata } from "@/lib/service-metadata";
 
 type IndustryPageProps = {
   params: Promise<{ slug: string }>;
-};
-
-const descriptions: Record<string, string> = {
-  ecommerce:
-    "How e-commerce search planning covers category architecture, product pages, filters, indexation, and product information.",
-  "saas-technology":
-    "How SaaS and technology search planning covers product pages, features, integrations, documentation, and evaluation content.",
-  "professional-services":
-    "How professional-services search planning covers service pages, expertise, evidence, and the questions clients ask.",
-  healthcare:
-    "How healthcare search planning organizes provider, service, and location information without medical advice or clinical claims.",
-  education:
-    "How education search planning covers programs, courses, admissions, campuses, and large course catalogs.",
-  "local-multi-location":
-    "How local and multi-location search planning covers location pages, service areas, and consistent business information.",
-};
-
-const pages: Record<string, () => JSX.Element> = {
-  ecommerce: EcommerceIndustryPage,
-  "saas-technology": SaasIndustryPage,
-  "professional-services": ProfessionalIndustryPage,
-  healthcare: HealthcareIndustryPage,
-  education: EducationIndustryPage,
-  "local-multi-location": LocalIndustryPage,
 };
 
 export function generateStaticParams() {
@@ -46,26 +18,48 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: IndustryPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const route = `/industries/${slug}`;
+  const document = getIndustryDocument(route);
+  const artwork = industryArtwork[route];
+  if (document && artwork) return serviceMetadata(document, artwork);
+
   const industry = getIndustry(slug);
-
-  if (!industry) {
-    return { title: "Industry" };
-  }
-
+  if (!industry) return { title: "Industry" };
   return {
     title: industry.name,
-    description: descriptions[industry.slug] ?? industry.summary,
+    description: industry.summary,
   };
 }
 
 export default async function IndustryPage({ params }: IndustryPageProps) {
   const { slug } = await params;
+  const route = `/industries/${slug}`;
+  const document = getIndustryDocument(route);
+  const artwork = industryArtwork[route];
   const industry = getIndustry(slug);
-  const Page = industry ? pages[industry.slug] : undefined;
 
-  if (!industry || !Page) {
-    notFound();
+  if (document && artwork && industry) {
+    return (
+      <ServiceDocumentPage
+        document={document}
+        artwork={artwork}
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Industries", href: "/industries" },
+          { label: industry.name },
+        ]}
+        related={{
+          title: "Other industries",
+          links: [
+            { href: "/industries", label: "All industries" },
+            ...industries
+              .filter((item) => item.slug !== industry.slug)
+              .map((item) => ({ href: `/industries/${item.slug}`, label: item.name })),
+          ],
+        }}
+      />
+    );
   }
 
-  return <Page />;
+  notFound();
 }

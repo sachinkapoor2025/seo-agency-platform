@@ -437,3 +437,51 @@ html {
     }
   }
 }
+
+/* Services heroes only. Desktop utilities were losing to the mobile
+   bottom padding, which dropped the illustration and left a cream band. */
+.service-hero-copy {
+  padding-top: 1.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.service-hero-art {
+  position: relative;
+}
+
+@media (min-width: 64rem) {
+  .service-hero {
+    min-height: calc(min(34rem, 48vw) * var(--art-scale, 1) * var(--art-h) / var(--art-w) + 1.5rem);
+  }
+
+  .service-hero-copy {
+    width: 100%;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .service-hero-art {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    bottom: auto;
+    left: auto;
+    width: calc(min(34rem, 48vw) * var(--art-scale, 1));
+    max-width: none;
+    max-height: none;
+    height: auto;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+}
+
+@media (min-width: 80rem) {
+  .service-hero {
+    min-height: calc(min(48rem, 58vw) * var(--art-scale, 1) * var(--art-h) / var(--art-w) + 1.5rem);
+  }
+
+  .service-hero-art {
+    width: calc(min(48rem, 58vw) * var(--art-scale, 1));
+    right: 1rem;
+  }
+}

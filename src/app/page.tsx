@@ -1,40 +1,155 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/button-link";
 import { ConsultationCta } from "@/components/consultation-cta";
 import { Container } from "@/components/container";
+import { FaqAccordion } from "@/components/faq-accordion";
 import { HeroEntrance } from "@/components/hero-entrance";
-import { HeroSystem } from "@/components/hero-system";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { SectionHeading } from "@/components/section-heading";
-import { caseStudies } from "@/content/case-studies";
-import { services } from "@/content/services";
 import { cx } from "@/lib/cx";
 import { ui } from "@/lib/ui";
 
-const strategyParts = [
+const heroImage = "/images/seo-for-the-ai-powered-era.webp";
+const heroArtwork = "/images/seo-for-the-ai-powered-era-hero.webp";
+
+const pageDescription =
+  "International SEO for the USA, UK, Australia, Canada, and Europe. Growth Agency improves discoverability across search engines and AI platforms.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://dev.d1ffcl0phwxd2e.amplifyapp.com"),
+  title: {
+    absolute: "International SEO Services That Drive Sustainable Online Growth | Growth Agency",
+  },
+  description: pageDescription,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "International SEO Services That Drive Sustainable Online Growth | Growth Agency",
+    description: pageDescription,
+    url: "https://dev.d1ffcl0phwxd2e.amplifyapp.com/",
+    siteName: "Growth Agency",
+    type: "website",
+    images: [
+      {
+        url: heroImage,
+        width: 1672,
+        height: 941,
+        alt: "Illustration of a laptop, globe, and rising search chart representing international SEO.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "International SEO Services That Drive Sustainable Online Growth | Growth Agency",
+    description: pageDescription,
+    images: [heroImage],
+  },
+};
+
+const heroLead =
+  "Grow your business with a strategic approach to search engine optimization and AI-powered search visibility. Growth Agency helps businesses strengthen their online presence, attract relevant audiences, and improve their discoverability across traditional search engines and emerging AI platforms.";
+
+const presenceParagraphs = [
+  "Online visibility requires more than publishing content or adding keywords to website pages. Your website needs a strong technical foundation, relevant information, and a clear structure that helps search engines and AI-powered platforms understand your business.",
+  "As an SEO services company, Growth Agency brings together technical SEO, content strategy, on-page optimization, and AI search visibility to create a connected approach to organic growth.",
+  "We focus on understanding your website, identifying opportunities, and implementing improvements that support your long-term digital visibility.",
+] as const;
+
+const services = [
   {
-    title: "Technical foundations",
-    text: "Crawl access, templates, and internal links decide whether the right pages can be reached at all.",
+    slug: "technical-seo",
+    kicker: "Foundation",
+    name: "Technical SEO Services",
+    paragraphs: [
+      "A technically optimized website makes it easier for search engines to crawl, render, and understand your pages.",
+      "Our technical SEO services focus on website structure, crawl accessibility, internal linking, and technical issues that may affect search visibility.",
+    ],
+    layout: "feature",
   },
   {
-    title: "Useful content",
-    text: "A page should answer a defined question for a real audience, rather than add publishing volume for its own sake.",
+    slug: "on-page-seo",
+    kicker: "Pages",
+    name: "On-Page SEO Services",
+    paragraphs: [
+      "Your website pages should clearly communicate their purpose to both visitors and search engines.",
+      "Our on-page SEO approach focuses on optimizing page titles, headings, content structure, internal links, and relevant keyword placement to improve page clarity and search relevance.",
+    ],
+    layout: "plain",
   },
   {
-    title: "Search engine visibility",
-    text: "Classic search still depends on stable URLs, clear pages, and a site that can be crawled and understood.",
+    slug: "content-strategy",
+    kicker: "Editorial",
+    name: "Content Strategy and Optimization",
+    paragraphs: [
+      "Useful content helps businesses answer customer questions and establish a meaningful online presence.",
+      "We develop content strategies based on search intent, audience requirements, and business objectives. Each page is planned around a clear topic and purpose rather than publishing content simply to increase website volume.",
+    ],
+    layout: "sage",
   },
   {
-    title: "Answer engine optimization",
-    text: "A direct, accurate answer is easier to use in search results and in answer interfaces.",
+    slug: "ecommerce-seo",
+    kicker: "Catalogs",
+    name: "E-commerce SEO Services",
+    paragraphs: [
+      "E-commerce websites need a well-organized structure that helps search engines understand their product catalogs.",
+      "Our e-commerce SEO services focus on category pages, product pages, supporting content, and website templates to improve product discoverability and organic search performance.",
+    ],
+    layout: "rule",
   },
   {
-    title: "Generative engine optimization",
-    text: "Generative systems need a consistent source. Contradictory or thin pages are a weak one.",
+    slug: "answer-engine-optimization",
+    kicker: "AEO",
+    name: "Answer Engine Optimization (AEO)",
+    paragraphs: [
+      "Search experiences are changing, and people increasingly expect direct answers to their questions.",
+      "Our Answer Engine Optimization services help structure website information so that important questions receive clear, accurate, and useful answers.",
+      "We focus on content clarity, meaningful headings, and well-organized information that supports answer-based search experiences.",
+    ],
+    layout: "sage",
   },
   {
-    title: "AI-mediated discovery",
-    text: "AI search is not a separate trick. It depends on the same technical access, clarity, and consistency.",
+    slug: "generative-engine-optimization",
+    kicker: "GEO",
+    name: "Generative Engine Optimization (GEO)",
+    paragraphs: [
+      "Generative AI platforms are creating new ways for people to discover businesses and information.",
+      "Our Generative Engine Optimization approach focuses on improving content consistency, information clarity, and website structure so that generative systems can better understand your business.",
+    ],
+    layout: "plain",
+  },
+  {
+    slug: "ai-search-visibility",
+    kicker: "Combined",
+    name: "AI Search Visibility",
+    paragraphs: [
+      "Modern search visibility extends beyond traditional search engine results.",
+      "We connect technical accessibility, useful content, and consistent website information to help businesses build a stronger presence across traditional search, answer engines, and AI-mediated discovery experiences.",
+    ],
+    layout: "closing",
+  },
+] as const;
+
+const markets = [
+  {
+    title: "SEO Services in the USA",
+    text: "Build a stronger search presence among US audiences through relevant content, technical optimization, and search-focused website improvements.",
+  },
+  {
+    title: "SEO Services in the UK",
+    text: "Improve your website's discoverability among UK audiences with content and SEO strategies aligned with local search intent.",
+  },
+  {
+    title: "SEO Services in Australia",
+    text: "Develop a search visibility strategy that connects your website with relevant Australian audiences and their information needs.",
+  },
+  {
+    title: "SEO Services in Canada",
+    text: "Strengthen your online presence among Canadian audiences through useful website content and technically sound SEO practices.",
+  },
+  {
+    title: "SEO Services Across Europe",
+    text: "Plan your international search strategy around different European markets, audience expectations, and relevant search requirements.",
   },
 ] as const;
 
@@ -42,94 +157,119 @@ const stages = [
   {
     step: "01",
     title: "Discover",
-    text: "Clarify the commercial goal, the priority markets, and the current state of the site.",
+    text: "We begin by understanding your business objectives, priority markets, website structure, and current search visibility.",
   },
   {
     step: "02",
     title: "Strategize",
-    text: "Choose the technical, content, and visibility work that fits. Leave out activity that cannot be justified.",
+    text: "We identify relevant technical, content, and search optimization opportunities and create a strategy based on your priorities.",
   },
   {
     step: "03",
     title: "Execute",
-    text: "Implement with the people who own the website, content, and product, in changes that can be reviewed.",
+    text: "We work with the people responsible for your website, content, and technical implementation to make practical, reviewable improvements.",
   },
   {
     step: "04",
     title: "Measure",
-    text: "Watch signals that can be explained, and state clearly what those signals do not prove.",
+    text: "We monitor relevant performance indicators, evaluate progress, and explain what the available data tells us.",
   },
   {
     step: "05",
     title: "Improve",
-    text: "Use what was learned to set the next cycle. No cycle is treated as a final guarantee.",
+    text: "We use insights from each stage to refine the strategy and identify the next opportunities for improvement.",
   },
 ] as const;
 
 const reasons = [
   {
-    title: "Technical and strategic SEO together",
-    text: "Recommendations join engineering realities with the commercial question the site needs to answer.",
+    title: "Technical and Strategic SEO Together",
+    text: "We connect technical website improvements with the commercial goals your website needs to support.",
   },
   {
-    title: "Visibility beyond a single search box",
-    text: "The same plan covers classic search, answer interfaces, and generative discovery.",
+    title: "Visibility Beyond Traditional Search",
+    text: "Our approach considers traditional search engines, answer engines, and generative AI discovery experiences.",
   },
   {
-    title: "Content built around genuine intent",
-    text: "Topics are chosen because someone needs an answer, then tied back to the pages that matter.",
+    title: "Content Built Around Search Intent",
+    text: "We focus on creating useful, relevant content that addresses genuine audience questions and supports important business pages.",
   },
   {
-    title: "A measurable, continuous approach",
-    text: "What is watched is explained in plain language, including what a metric cannot prove.",
+    title: "A Clear and Measurable Approach",
+    text: "We evaluate relevant performance signals and communicate progress without making unrealistic ranking or revenue promises.",
   },
   {
-    title: "An international market perspective",
-    text: "Work is planned for India, the United States, and the United Kingdom, without assuming one market’s pages fit another.",
+    title: "International Market Perspective",
+    text: "We consider the differences between international markets when planning search visibility and content strategies.",
   },
 ] as const;
 
-const serviceStyle: Record<string, "feature" | "sage" | "plain" | "rule" | "closing"> = {
-  "technical-seo": "feature",
-  "on-page-seo": "plain",
-  "content-strategy": "sage",
-  "ecommerce-seo": "rule",
-  "answer-engine-optimization": "sage",
-  "generative-engine-optimization": "plain",
-  "ai-search-visibility": "closing",
-};
+const faqs = [
+  {
+    question: "What are international SEO services?",
+    answer:
+      "International SEO services help businesses optimize their websites to reach relevant audiences in different countries. They involve technical optimization, international content planning, and strategies that consider the search behavior of different markets.",
+  },
+  {
+    question: "Why are SEO services important for businesses?",
+    answer:
+      "SEO helps businesses improve their organic search visibility, make important website pages easier to discover, and connect with people searching for relevant products, services, or information.",
+  },
+  {
+    question: "What services does an SEO agency provide?",
+    answer:
+      "An SEO agency may provide technical SEO, on-page optimization, keyword research, content strategy, e-commerce SEO, and search visibility improvements based on business requirements.",
+  },
+  {
+    question: "How long does SEO take to show results?",
+    answer:
+      "SEO timelines depend on factors such as website condition, competition, content quality, technical issues, and the scope of implementation. Meaningful improvements generally require consistent work and ongoing evaluation.",
+  },
+  {
+    question: "What is the difference between SEO, AEO, and GEO?",
+    answer:
+      "SEO focuses on improving visibility in traditional search engines. AEO focuses on making information useful and accessible for direct-answer experiences. GEO focuses on helping generative AI systems understand and use relevant information when generating responses.",
+  },
+  {
+    question: "Can SEO help businesses target multiple countries?",
+    answer:
+      "Yes. International SEO helps businesses develop market-specific website structures and content strategies to reach relevant audiences across different countries.",
+  },
+  {
+    question: "Do you provide e-commerce SEO services?",
+    answer:
+      "Yes. E-commerce SEO is one of our core capabilities, focusing on product pages, category pages, catalog structures, and supporting content.",
+  },
+] as const;
 
-const serviceKicker: Record<string, string> = {
-  "technical-seo": "Foundation",
-  "on-page-seo": "Pages",
-  "content-strategy": "Editorial",
-  "ecommerce-seo": "Catalogs",
-  "answer-engine-optimization": "AEO",
-  "generative-engine-optimization": "GEO",
-  "ai-search-visibility": "Combined",
-};
+const closingParagraphs = [
+  "Your website deserves a search strategy built around your business goals, target markets, and audience needs.",
+  "Whether you are looking to strengthen your organic search presence, improve website content, or prepare for the evolving world of AI-powered search, Growth Agency can help you identify the right opportunities.",
+  "Let's discuss your website, priority markets, and the improvements that can support your next stage of digital growth.",
+] as const;
 
 export default function HomePage() {
-  const examples = caseStudies.slice(0, 3);
-
   return (
     <>
-      <section aria-labelledby="hero-heading" className="border-b border-line bg-background">
-        <Container className="grid gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:items-start lg:gap-14 lg:pt-12 lg:pb-16">
-          <div className="flex min-w-0 flex-col gap-6">
-            <div className="flex flex-col gap-4">
-              <p className={ui.eyebrow}>International SEO and AI search growth</p>
-              <HeroEntrance duration={0.56} distance={18}>
-                <h1 id="hero-heading" className={cx(ui.display, "max-w-4xl")}>
-                  Grow your visibility across search and AI.
-                </h1>
-              </HeroEntrance>
-            </div>
+      <section aria-labelledby="hero-heading" className="relative overflow-hidden border-b border-line bg-[#fef7ea]">
+        <Image
+          src={heroArtwork}
+          alt=""
+          width={1172}
+          height={900}
+          priority
+          unoptimized
+          className="pointer-events-none absolute bottom-3 left-1/2 h-auto w-auto max-h-[15.5rem] max-w-[calc(100%-1.5rem)] -translate-x-1/2 object-contain select-none sm:max-h-[20rem] lg:bottom-auto lg:left-auto lg:right-4 lg:top-1/2 lg:max-h-none lg:w-[min(48%,34rem)] lg:max-w-none lg:translate-x-0 lg:-translate-y-1/2 xl:w-[min(58%,48rem)]"
+        />
+        <Container className="relative z-10 pt-12 pb-[17.5rem] sm:pt-14 sm:pb-[22rem] lg:flex lg:items-center lg:py-16 lg:pb-16">
+          <div className="flex max-w-xl flex-col gap-6 lg:max-w-[32rem]">
+            <HeroEntrance duration={0.56} distance={18}>
+              <h1 id="hero-heading" className={ui.display}>
+                International SEO Services That Drive Sustainable Online Growth
+              </h1>
+            </HeroEntrance>
             <HeroEntrance delay={0.12} duration={0.52} distance={14}>
-              <p className={cx(ui.bodyLg, ui.measure, "text-muted")}>
-                We help ambitious businesses build discoverability, attract qualified
-                traffic and turn digital visibility into measurable growth.
-              </p>
+              <p className={cx(ui.bodyLg, "text-muted")}>{heroLead}</p>
             </HeroEntrance>
             <HeroEntrance delay={0.24} duration={0.52} distance={12} className="flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/contact" className="w-full sm:w-auto">
@@ -139,43 +279,24 @@ export default function HomePage() {
                 Explore Our Services
               </ButtonLink>
             </HeroEntrance>
-            <p className={cx(ui.small, "text-muted")}>
-              Priority markets: India, the United States, and the United Kingdom.
-            </p>
           </div>
-          <HeroEntrance delay={0.4} duration={0.62} distance={16} className="min-w-0">
-            <HeroSystem />
-          </HeroEntrance>
         </Container>
       </section>
 
-      <section aria-labelledby="strategy-heading" className="bg-surface">
-        <Container className={cx(ui.section, "grid gap-10 lg:grid-cols-12 lg:gap-14")}>
-          <ScrollReveal className="lg:col-span-4">
+      <section aria-labelledby="presence-heading" className="bg-surface">
+        <Container className={cx(ui.section, "grid gap-10 lg:grid-cols-12 lg:gap-16")}>
+          <ScrollReveal className="lg:col-span-5">
             <SectionHeading
-              id="strategy-heading"
-              eyebrow="Positioning"
-              title="Visibility is a connected system."
-              description="A website has to be technically available, useful to a person, and consistent enough for search engines and AI-mediated answers."
+              id="presence-heading"
+              title="Build a Stronger Online Presence with Strategic SEO"
             />
           </ScrollReveal>
-          <ScrollReveal className="lg:col-span-8" delay={0.08}>
-          <ol>
-            {strategyParts.map((part, index) => (
-              <li
-                key={part.title}
-                className="grid gap-2 border-t border-line py-5 md:grid-cols-[minmax(11rem,0.8fr)_1.2fr] md:items-baseline md:gap-8"
-              >
-                <h3 className={ui.h3}>
-                  <span className="mr-3 font-sans text-sm font-semibold tracking-wide text-accent">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  {part.title}
-                </h3>
-                <p className={cx(ui.body, "text-muted")}>{part.text}</p>
-              </li>
+          <ScrollReveal className="flex flex-col gap-5 lg:col-span-7" delay={0.08}>
+            {presenceParagraphs.map((paragraph) => (
+              <p key={paragraph} className={cx(ui.bodyLg, "text-muted")}>
+                {paragraph}
+              </p>
             ))}
-          </ol>
           </ScrollReveal>
         </Container>
       </section>
@@ -186,146 +307,123 @@ export default function HomePage() {
             <SectionHeading
               id="services-heading"
               eyebrow="Services"
-              title="Core capabilities"
-              description="Seven practices, planned as one system. Each link opens the existing explanation of that service."
+              title="Our Digital Marketing and SEO Services"
+              description="We provide specialized SEO and search visibility solutions designed to improve website performance and help businesses reach their target audiences."
             />
           </ScrollReveal>
           <ul className="mt-10 grid gap-4 md:grid-cols-2">
             {services.map((service, index) => {
-              const layout = serviceStyle[service.slug] ?? "plain";
-              const wide = layout === "feature" || layout === "closing";
+              const wide = service.layout === "feature" || service.layout === "closing";
               return (
                 <li key={service.slug} className={wide ? "md:col-span-2" : undefined}>
                   <ScrollReveal className="h-full min-w-0" delay={index * 0.08}>
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className={cx(
-                      "flex h-full min-w-0 flex-col gap-4 border border-line p-6 transition-colors duration-150 sm:p-7",
-                      layout === "feature" && "bg-inverse text-on-inverse md:flex-row md:items-end md:justify-between md:gap-12",
-                      layout === "closing" && "bg-surface md:flex-row md:items-end md:justify-between md:gap-12",
-                      layout === "sage" && "bg-sage",
-                      layout === "plain" && "bg-surface",
-                      layout === "rule" && "border-t-2 border-t-accent bg-surface",
-                      "hover:border-accent",
-                    )}
-                  >
-                    <div className="min-w-0">
-                      <p className={cx(ui.eyebrow, layout === "feature" && "text-on-inverse/80")}>
-                        {serviceKicker[service.slug] ?? "Service"}
-                      </p>
-                      <h3 className={cx(ui.h3, "mt-3")}>{service.name}</h3>
-                      <p
-                        className={cx(
-                          ui.body,
-                          "mt-3 max-w-2xl",
-                          layout === "feature" ? "text-on-inverse/85" : "text-muted",
-                        )}
-                      >
-                        {service.summary}
-                      </p>
-                    </div>
-                    <p
+                    <Link
+                      href={`/services/${service.slug}`}
                       className={cx(
-                        "text-sm font-semibold",
-                        layout === "feature"
-                          ? "text-on-inverse underline decoration-on-inverse/40 underline-offset-4"
-                          : ui.textLink,
+                        "flex h-full min-w-0 flex-col gap-4 border border-line p-6 transition-colors duration-150 sm:p-7",
+                        service.layout === "feature" &&
+                          "bg-inverse text-on-inverse md:flex-row md:items-end md:justify-between md:gap-12",
+                        service.layout === "closing" &&
+                          "bg-surface md:flex-row md:items-end md:justify-between md:gap-12",
+                        service.layout === "sage" && "bg-sage",
+                        service.layout === "plain" && "bg-surface",
+                        service.layout === "rule" && "border-t-2 border-t-accent bg-surface",
+                        "hover:border-accent",
                       )}
                     >
-                      View service
-                    </p>
-                  </Link>
+                      <div className="min-w-0">
+                        <p className={cx(ui.eyebrow, service.layout === "feature" && "text-on-inverse/80")}>
+                          {service.kicker}
+                        </p>
+                        <h3 className={cx(ui.h3, "mt-3")}>{service.name}</h3>
+                        <div
+                          className={cx(
+                            ui.body,
+                            "mt-3 flex max-w-2xl flex-col gap-3",
+                            service.layout === "feature" ? "text-on-inverse/85" : "text-muted",
+                          )}
+                        >
+                          {service.paragraphs.map((paragraph) => (
+                            <p key={paragraph}>{paragraph}</p>
+                          ))}
+                        </div>
+                      </div>
+                      <p
+                        className={cx(
+                          "text-sm font-semibold",
+                          service.layout === "feature"
+                            ? "text-on-inverse underline decoration-on-inverse/40 underline-offset-4"
+                            : ui.textLink,
+                        )}
+                      >
+                        View service
+                      </p>
+                    </Link>
                   </ScrollReveal>
                 </li>
               );
             })}
           </ul>
+          <ScrollReveal className="mt-8">
+            <ButtonLink href="/services">Discover Our SEO Solutions</ButtonLink>
+          </ScrollReveal>
         </Container>
       </section>
 
-      <section aria-labelledby="process-heading" className="border-t border-line bg-surface">
+      <section aria-labelledby="markets-heading" className="border-t border-line bg-surface">
+        <Container className={cx(ui.section, "grid gap-10 lg:grid-cols-12 lg:gap-14")}>
+          <ScrollReveal className="lg:col-span-4">
+            <SectionHeading
+              id="markets-heading"
+              title="International SEO Services for Global Markets"
+              description="Reaching customers in different countries requires more than targeting international keywords. Your website needs a clear content strategy that considers audience expectations, search intent, and the differences between individual markets."
+            />
+            <p className={cx(ui.body, "mt-4 text-ink")}>
+              Growth Agency plans search visibility strategies for businesses targeting international audiences.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal className="lg:col-span-8" delay={0.08}>
+            <ol>
+              {markets.map((market, index) => (
+                <li
+                  key={market.title}
+                  className="grid gap-2 border-t border-line py-5 md:grid-cols-[minmax(14rem,0.9fr)_1.1fr] md:items-baseline md:gap-8"
+                >
+                  <h3 className={ui.h3}>
+                    <span className="mr-3 font-sans text-sm font-semibold tracking-wide text-accent">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {market.title}
+                  </h3>
+                  <p className={cx(ui.body, "text-muted")}>{market.text}</p>
+                </li>
+              ))}
+            </ol>
+          </ScrollReveal>
+        </Container>
+      </section>
+
+      <section aria-labelledby="process-heading" className="border-t border-line bg-background">
         <Container className={ui.section}>
           <ScrollReveal>
             <SectionHeading
               id="process-heading"
               eyebrow="Process"
-              title="Five stages, then another cycle."
-              description="Each stage produces a decision the next one can use. Nothing here is a promise of rankings or revenue."
+              title="Our SEO Process: From Strategy to Continuous Improvement"
+              description="Effective SEO requires a structured process, regular evaluation, and continuous refinement."
             />
           </ScrollReveal>
           <ol className="mt-10 grid lg:grid-cols-5">
             {stages.map((stage, index) => (
               <li key={stage.title}>
                 <ScrollReveal className="border-t-2 border-accent py-5 lg:pr-6" delay={index * 0.09}>
-                <p className={ui.eyebrow}>{stage.step}</p>
-                <h3 className={cx(ui.h3, "mt-3")}>{stage.title}</h3>
-                <p className={cx(ui.small, "mt-3 text-muted")}>{stage.text}</p>
+                  <p className={ui.eyebrow}>{stage.step}</p>
+                  <h3 className={cx(ui.h3, "mt-3")}>{stage.title}</h3>
+                  <p className={cx(ui.small, "mt-3 text-muted")}>{stage.text}</p>
                 </ScrollReveal>
               </li>
             ))}
           </ol>
-        </Container>
-      </section>
-
-      <section aria-labelledby="examples-heading" className="border-t border-line bg-background">
-        <Container className={ui.section}>
-          <ScrollReveal>
-            <SectionHeading
-              id="examples-heading"
-              eyebrow="Illustrative examples"
-              title="Case-study previews"
-              description="Every example is hypothetical. None of them is a client engagement, and none reports a ranking or a commercial result."
-            />
-          </ScrollReveal>
-          <div className="mt-8 border-t border-line">
-            {examples.map((study, index) => (
-              <article key={study.slug}>
-                <ScrollReveal className="border-b border-line py-8" delay={index * 0.08}>
-                <div className="grid gap-6 lg:grid-cols-12">
-                  <div className="min-w-0 lg:col-span-4">
-                    <p className={ui.eyebrow}>Illustrative example</p>
-                    <h3 className={cx(ui.h3, "mt-3")}>
-                      <Link href={`/case-studies/${study.slug}`} className={ui.quietLink}>
-                        {study.title}
-                      </Link>
-                    </h3>
-                    <p className={cx(ui.small, "mt-2 font-semibold")}>{study.industry}</p>
-                    <Link href={`/case-studies/${study.slug}`} className={cx(ui.textLink, "mt-5 inline-flex text-sm")}>
-                      Read the example
-                    </Link>
-                  </div>
-                  <div className="grid gap-6 sm:grid-cols-3 lg:col-span-8">
-                    <div>
-                      <h4 className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-                        Challenge
-                      </h4>
-                      <p className={cx(ui.small, "mt-2 text-ink")}>{study.challenge[0]}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-                        Approach
-                      </h4>
-                      <p className={cx(ui.small, "mt-2 text-ink")}>{study.strategy[0]}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-semibold tracking-[0.14em] text-accent uppercase">
-                        Outcome
-                      </h4>
-                      <p className={cx(ui.small, "mt-2 text-ink")}>
-                        Not included. This example does not report rankings, traffic, or commercial results.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                </ScrollReveal>
-              </article>
-            ))}
-          </div>
-          <ScrollReveal className="mt-8">
-            <ButtonLink href="/case-studies" variant="secondary">
-              View all examples
-            </ButtonLink>
-          </ScrollReveal>
         </Container>
       </section>
 
@@ -334,35 +432,49 @@ export default function HomePage() {
           <ScrollReveal className="lg:col-span-5">
             <SectionHeading
               id="why-heading"
-              eyebrow="Why Growth Agency"
-              title="A practice built around the work, not a claim of scale."
-              description="The distinction is how search, content, and technical decisions are held together. There is no client count and no market-leader claim on this site."
+              title="Why Choose Growth Agency?"
+              description="Choosing the right SEO agency means finding a team that understands the relationship between technology, content, and business objectives."
             />
           </ScrollReveal>
           <ScrollReveal className="lg:col-span-7" delay={0.08}>
-          <ol className="border-t border-line">
-            {reasons.map((reason, index) => (
-              <li key={reason.title} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 border-b border-line py-5">
-                <span className="font-serif text-lg font-semibold text-accent">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0">
-                  <h3 className={ui.h3}>{reason.title}</h3>
-                  <p className={cx(ui.body, "mt-2 text-muted")}>{reason.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+            <ol className="border-t border-line">
+              {reasons.map((reason, index) => (
+                <li
+                  key={reason.title}
+                  className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-4 border-b border-line py-5"
+                >
+                  <span className="font-serif text-lg font-semibold text-accent">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className={ui.h3}>{reason.title}</h3>
+                    <p className={cx(ui.body, "mt-2 text-muted")}>{reason.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </ScrollReveal>
+        </Container>
+      </section>
+
+      <section aria-labelledby="faq-heading" className="border-t border-line bg-background">
+        <Container className={ui.section}>
+          <ScrollReveal>
+            <SectionHeading id="faq-heading" title="Frequently Asked Questions" />
+          </ScrollReveal>
+          <ScrollReveal className="mt-10" delay={0.08}>
+            <FaqAccordion items={faqs} />
           </ScrollReveal>
         </Container>
       </section>
 
       <ScrollReveal>
-      <ConsultationCta
-        title="Let's build your next stage of search growth."
-        description="Book a strategy call to discuss priority markets, the current site, and the kind of work that would be useful. The conversation is a starting point, not a promise of rankings or results."
-        actionLabel="Book a Strategy Call"
-      />
+        <ConsultationCta
+          title="Let's Build Your Next Stage of Search Growth"
+          paragraphs={closingParagraphs}
+          note="Start with a conversation about your search visibility goals and explore a practical path toward stronger online discoverability."
+          actionLabel="Book a Strategy Call Today"
+        />
       </ScrollReveal>
     </>
   );

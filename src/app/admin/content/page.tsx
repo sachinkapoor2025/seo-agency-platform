@@ -29,7 +29,8 @@ const sections = [
     title: "Case Studies",
     count: caseStudies.length,
     href: "/case-studies",
-    description: "Illustrative examples on the public site. They are not verified results.",
+    description:
+      "Featured website projects for UsaRakhi, BlossomPot, HalloweenReady, and SpicyCenter. Figures are limited to the August–November 2026 report.",
   },
   {
     title: "Insights / Blog",

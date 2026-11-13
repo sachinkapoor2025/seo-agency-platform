@@ -19,17 +19,53 @@ export type Industry = {
   relevantServices: string[];
 };
 
+export type CaseStudyImage = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+};
+
+export type CaseStudyMetric = {
+  label: string;
+  value: string;
+  definition: string;
+};
+
+export type CaseStudyWorkItem = {
+  title: string;
+  detail: string;
+};
+
+export type CaseStudyFinding = {
+  title: string;
+  detail: string;
+  status: "Completed work" | "Report observation";
+};
+
+export type CaseStudyServiceLink = {
+  href: string;
+  label: string;
+  description: string;
+};
+
 export type CaseStudy = {
   slug: string;
-  title: string;
+  name: string;
+  websiteUrl: string;
   summary: string;
-  industry: string;
-  serviceSlugs: string[];
-  context: string[];
-  challenge: string[];
-  strategy: string[];
-  implementation: string[];
-  measurement: string[];
+  seoTitle: string;
+  seoDescription: string;
+  image: CaseStudyImage;
+  introduction: string;
+  overview: string[];
+  purpose: string;
+  objectives: string[];
+  work: CaseStudyWorkItem[];
+  metrics: CaseStudyMetric[];
+  withheld: string[];
+  findings: CaseStudyFinding[];
+  relatedServices: CaseStudyServiceLink[];
 };
 
 export type ArticleSection = {

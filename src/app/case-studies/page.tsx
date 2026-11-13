@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ButtonLink } from "@/components/button-link";
+import { CaseStudyCard } from "@/components/case-study-card";
 import { Container } from "@/components/container";
 import { HeroEntrance } from "@/components/hero-entrance";
 import { ScrollReveal } from "@/components/scroll-reveal";
@@ -13,7 +14,7 @@ import { ui } from "@/lib/ui";
 const metadataBase = new URL("https://dev.d1ffcl0phwxd2e.amplifyapp.com");
 const title = "SEO Case Studies & Digital Growth Projects | Growth Agency";
 const description =
-  "Explore how strategic SEO, website optimization, content marketing, and digital growth solutions can help businesses strengthen their online presence.";
+  "Featured website projects for UsaRakhi, BlossomPot, HalloweenReady, and SpicyCenter, with the SEO work and figures documented for August–November 2026.";
 const artwork = {
   src: "/images/case-studies/case-studies-measurable-growth.webp",
   width: 1032,
@@ -68,41 +69,6 @@ const workAreas = [
   {
     title: "AI Search Optimization",
     text: "Preparing websites and brand information for evolving search experiences through Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), and AI search visibility strategies.",
-  },
-];
-
-const projectCategories = [
-  {
-    id: "seo-projects",
-    title: "SEO and Organic Search Projects",
-    text: "Explore projects involving technical SEO, on-page optimization, keyword research, content improvements, and organic search strategy.",
-    action: "Explore SEO Projects",
-    href: "#illustrative-examples",
-  },
-  {
-    title: "E-commerce Website and SEO Projects",
-    text: "Discover work related to e-commerce website optimization, product discovery, category page improvements, and search-focused shopping experiences.",
-    action: "Explore E-commerce Projects",
-    href: "/case-studies/international-product-catalogue",
-  },
-  {
-    title: "Local SEO and Multi-Location Projects",
-    text: "Explore strategies designed to improve local search presence, location page quality, business information consistency, and visibility across multiple markets.",
-    action: "Explore Local SEO Projects",
-    href: "/case-studies/multi-location-service-business",
-  },
-  {
-    id: "website-projects",
-    title: "Website Design and Development Projects",
-    text: "See how website structure, user experience, responsive design, and development considerations support stronger digital experiences.",
-    action: "Explore Website Projects",
-    href: "#website-projects",
-  },
-  {
-    title: "Content and AI Search Projects",
-    text: "Explore content strategy, answer-focused content, entity optimization, and approaches to improving brand discoverability across AI-powered search experiences.",
-    action: "Explore Content and AI Search Projects",
-    href: "/case-studies/b2b-software-documentation",
   },
 ];
 
@@ -182,20 +148,7 @@ const measurements = [
   "Website engagement and user experience",
 ];
 
-const exampleOrder = [
-  "international-product-catalogue",
-  "b2b-software-documentation",
-  "multi-location-service-business",
-  "advisory-explanatory-content",
-];
-
 export default function CaseStudiesPage() {
-  const examples = exampleOrder.map((slug) => {
-    const study = caseStudies.find((item) => item.slug === slug);
-    if (!study) throw new Error(`Missing case study: ${slug}`);
-    return study;
-  });
-
   return (
     <>
       <section
@@ -280,45 +233,22 @@ export default function CaseStudiesPage() {
           <ScrollReveal>
             <div className="max-w-3xl">
               <h2 id="projects-heading" className={ui.h2}>
-                Explore Our Digital Growth Projects
+                Featured Website Projects
               </h2>
               <p className={cx(ui.body, "mt-4 text-muted")}>
-                Our project portfolio is organized around the challenges businesses want to solve and the services that support their objectives.
+                UsaRakhi, BlossomPot, HalloweenReady, and SpicyCenter are presented here as featured website projects. Open a project for the context, the work described in the August–November 2026 SEO report, and the figures that report includes.
               </p>
               <p className={cx(ui.body, "mt-4 text-muted")}>
-                Explore the relevant project details to understand the business context, strategic approach, work completed, and documented outcomes.
+                Growth rates whose starting and ending counts were left blank, or which the report says should be verified before distribution, are not repeated as results.
               </p>
             </div>
-            <ol className="mt-10 grid gap-4 lg:grid-cols-2">
-              {projectCategories.map((item, index) => (
-                <li key={item.title} id={item.id} className={cx("scroll-mt-24", index === projectCategories.length - 1 && "lg:col-span-2")}>
-                  <Link
-                    href={item.href}
-                    className="flex h-full min-w-0 flex-col border border-line bg-background p-6 transition-colors duration-150 hover:border-accent sm:p-8"
-                  >
-                    <p className={ui.eyebrow}>{String(index + 1).padStart(2, "0")}</p>
-                    <h3 className={cx(ui.h3, "mt-3")}>{item.title}</h3>
-                    <p className={cx(ui.body, "mt-4 text-muted")}>{item.text}</p>
-                    <p className={cx("mt-5 text-sm font-semibold", ui.textLink)}>{item.action}</p>
-                  </Link>
+            <ul className="mt-10 grid gap-6 md:grid-cols-2">
+              {caseStudies.map((study) => (
+                <li key={study.slug} className="min-w-0">
+                  <CaseStudyCard study={study} />
                 </li>
               ))}
-            </ol>
-            <div id="illustrative-examples" className="scroll-mt-24 mt-10 max-w-3xl border-t border-line pt-8">
-              <h3 className={ui.h3}>Illustrative examples</h3>
-              <p className={cx(ui.body, "mt-4 text-muted")}>
-                These pages are illustrative examples, not verified client projects. They do not report rankings, traffic, leads, or revenue.
-              </p>
-              <ul className="mt-4 grid gap-2.5">
-                {examples.map((study) => (
-                  <li key={study.slug}>
-                    <Link href={`/case-studies/${study.slug}`} className={ui.textLink}>
-                      {study.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            </ul>
           </ScrollReveal>
         </Container>
       </section>

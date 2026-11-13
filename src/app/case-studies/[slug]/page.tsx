@@ -1,24 +1,14 @@
 import type { Metadata } from "next";
-import type { JSX } from "react";
 import { notFound } from "next/navigation";
-import { AdvisoryCaseStudy } from "@/components/case-advisory";
-import { CatalogueCaseStudy } from "@/components/case-catalogue";
-import { DocumentationCaseStudy } from "@/components/case-documentation";
-import { LocationsCaseStudy } from "@/components/case-locations";
+import { CaseStudyDetail } from "@/components/case-study-detail";
 import { caseStudies } from "@/content/case-studies";
-import type { CaseStudy } from "@/content/types";
 import { getCaseStudy } from "@/lib/content";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-const pages: Record<string, (props: { study: CaseStudy }) => JSX.Element> = {
-  "international-product-catalogue": CatalogueCaseStudy,
-  "b2b-software-documentation": DocumentationCaseStudy,
-  "multi-location-service-business": LocationsCaseStudy,
-  "advisory-explanatory-content": AdvisoryCaseStudy,
-};
+const metadataBase = new URL("https://dev.d1ffcl0phwxd2e.amplifyapp.com");
 
 export const dynamicParams = false;
 
@@ -29,19 +19,89 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) return { title: "Example not found" };
+  if (!study) return { title: "Case study not found" };
+
+  const path = `/case-studies/${study.slug}`;
+  const url = new URL(path, metadataBase).toString();
+
   return {
-    title: study.title,
-    description: study.summary,
+    metadataBase,
+    title: { absolute: study.seoTitle },
+    description: study.seoDescription,
+    alternates: { canonical: path },
+    openGraph: {
+      title: study.seoTitle,
+      description: study.seoDescription,
+      url,
+      siteName: "Growth Agency",
+      type: "article",
+      images: [
+        {
+          url: study.image.src,
+          width: study.image.width,
+          height: study.image.height,
+          alt: study.image.alt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: study.seoTitle,
+      description: study.seoDescription,
+      images: [study.image.src],
+    },
   };
 }
 
 export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  const Page = study ? pages[study.slug] : undefined;
+  if (!study) notFound();
 
-  if (!study || !Page) notFound();
+  const path = `/case-studies/${study.slug}`;
+  const pageUrl = new URL(path, metadataBase).toString();
+  const imageUrl = new URL(study.image.src, metadataBase).toString();
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: study.seoTitle,
+        description: study.seoDescription,
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Growth Agency",
+          url: metadataBase.toString(),
+        },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: imageUrl,
+          width: study.image.width,
+          height: study.image.height,
+        },
+        about: {
+          "@type": "WebSite",
+          name: study.name,
+          url: study.websiteUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", metadataBase).toString() },
+          { "@type": "ListItem", position: 2, name: "Case Studies", item: new URL("/case-studies", metadataBase).toString() },
+          { "@type": "ListItem", position: 3, name: study.name, item: pageUrl },
+        ],
+      },
+    ],
+  };
 
-  return <Page study={study} />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <CaseStudyDetail study={study} />
+    </>
+  );
 }

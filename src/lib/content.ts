@@ -2,7 +2,7 @@ import { articles } from "@/content/insights";
 import { caseStudies } from "@/content/case-studies";
 import { industries } from "@/content/industries";
 import { services } from "@/content/services";
-import type { Article, CaseStudy, Service } from "@/content/types";
+import type { Article, Service } from "@/content/types";
 
 export function getService(slug: string) {
   return services.find((service) => service.slug === slug);
@@ -32,8 +32,4 @@ export function getArticlesBySlug(slugs: string[]): Article[] {
     const article = getArticle(slug);
     return article ? [article] : [];
   });
-}
-
-export function servicesForCaseStudy(study: CaseStudy): Service[] {
-  return getServicesBySlug(study.serviceSlugs);
 }
